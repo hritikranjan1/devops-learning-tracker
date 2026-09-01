@@ -74,10 +74,8 @@ docker compose down
 ## 👨‍💻 Author
 
 **Hritik Ranjan**
-
-QA Engineer | DevOps & Cloud Learner
-
-GitHub: https://github.com/hritikranjan1
-LinkedIn: https://www.linkedin.com/in/hritikranjan1/
-Blog: https://blogs.hritikranjan.in
+QA Engineer | DevOps & Cloud Learner  
+GitHub: https://github.com/hritikranjan1  
+LinkedIn: https://www.linkedin.com/in/hritikranjan1/  
+Blog: https://blogs.hritikranjan.in  
 Website: https://hritikranjan.in
