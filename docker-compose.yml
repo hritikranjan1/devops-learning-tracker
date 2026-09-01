@@ -1,74 +1,51 @@
+version: "3.8"
 services:
-
+#Database service 1
   db:
     image: mysql:8.4
-
     container_name: devops_tracker_db
-
     restart: unless-stopped
-
+#Here Setting Environment Variables
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: devops_tracker
       MYSQL_USER: devopsuser
       MYSQL_PASSWORD: devopspass
-
+#creating volume
     volumes:
       - mysql_data:/var/lib/mysql
-
+#healthcheck of Database
     healthcheck:
-      test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "-h",
-          "localhost",
-          "-u",
-          "root",
-          "-prootpassword"
-        ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
       interval: 5s
       timeout: 5s
       retries: 10
-
-
+#web service - backend ke liye
   web:
     build:
       context: ./backend
       dockerfile: Dockerfile
-
     container_name: devops_tracker_web
-
     restart: unless-stopped
-
     environment:
       DB_HOST: db
       DB_USER: devopsuser
       DB_PASSWORD: devopspass
       DB_NAME: devops_tracker
-
     depends_on:
       db:
         condition: service_healthy
-
-
+#ngnix service - reverse proxy ke liye 
   nginx:
     build:
       context: .
       dockerfile: nginx/Dockerfile
-
     container_name: devops_tracker_nginx
-
     restart: unless-stopped
-
     ports:
       - "8082:80"
-
     depends_on:
       - web
-
-
+#volumes  create ke liye
 volumes:
-
   mysql_data:
