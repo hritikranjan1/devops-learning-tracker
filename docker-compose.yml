@@ -7,19 +7,24 @@ services:
     restart: unless-stopped
 #Here Setting Environment Variables
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: devops_tracker
-      MYSQL_USER: devopsuser
-      MYSQL_PASSWORD: devopspass
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 #creating volume
     volumes:
       - mysql_data:/var/lib/mysql
 #healthcheck of Database
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 5s
       retries: 10
+#memory limit for database
+    mem_limit: 512m
+#network for database
+    networks:
+      - devops_network
 #web service - backend ke liye
   web:
     build:
@@ -29,13 +34,18 @@ services:
     restart: unless-stopped
     environment:
       DB_HOST: db
-      DB_USER: devopsuser
-      DB_PASSWORD: devopspass
-      DB_NAME: devops_tracker
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
     depends_on:
       db:
         condition: service_healthy
-#ngnix service - reverse proxy ke liye 
+#memory limit for backend
+    mem_limit: 256m
+#network for backend
+    networks:
+      - devops_network
+#ngnix service - reverse proxy ke liye
   nginx:
     build:
       context: .
@@ -46,6 +56,15 @@ services:
       - "8082:80"
     depends_on:
       - web
-#volumes  create ke liye
+#memory limit for nginx
+    mem_limit: 128m
+#network for nginx
+    networks:
+      - devops_network
+#volumes create ke liye
 volumes:
   mysql_data:
+#network create ke liye
+networks:
+  devops_network:
+    driver: bridge
