@@ -10,12 +10,11 @@ CORS(app)
 
 def get_db_connection():
     return mysql.connector.connect(
-        host=os.getenv("DB_HOST", "db"),
-        user=os.getenv("DB_USER", "devopsuser"),
-        password=os.getenv("DB_PASSWORD", "devopspass"),
-        database=os.getenv("DB_NAME", "devops_tracker")
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME")
     )
-
 
 def initialize_database():
     for attempt in range(10):
