@@ -4,6 +4,12 @@ A simple three-tier application built with **Flask, MySQL, Nginx and Docker Comp
 
 The main purpose of this project is to practice containerisation, service communication, database persistence and reverse proxy configuration using Docker Compose.
 
+## Submission Walkthrough
+
+Video walkthrough of my DevOps assessment submission:
+
+[Watch the 5-minute walkthrough on YouTube](https://youtu.be/ixK2aGKkBu0)
+
 ## Architecture
 
 ```text
@@ -152,7 +158,7 @@ docker compose down -v
 ## 👨‍💻 Author
 
 **Hritik Ranjan**
-QA Engineer | DevOps & Cloud Learner  
+DevOps & Cloud Learner  
 GitHub: https://github.com/hritikranjan1  
 LinkedIn: https://www.linkedin.com/in/hritikranjan1/  
 Blog: https://blogs.hritikranjan.in  
